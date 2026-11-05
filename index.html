@@ -1,113 +1,4 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NIGHT FINAL</title>
-<link rel="stylesheet" href="css/style.css">
-<style>
-.page{ display:none !important; }
-.page.active{ display:block !important; }
-#page-messages.active{ display:flex !important; flex-direction:column; height:100vh; }
-.feed-top-bar{ height:56px; background:#0F1A32; border-bottom:1px solid #1C2A4A; display:flex; align-items:center; padding:0 18px; position:sticky; top:0; z-index:10; }
-.feed-logo{ font-size:26px; font-weight:900; letter-spacing:4px; color:#FFD88A; text-shadow:0 0 12px #FFD88A; display:flex; align-items:center; gap:8px; }
-.story-ring{ width:62px; height:62px; border-radius:50%; padding:3px; position:relative; }
-.story-ring.dotted{ border:2.5px dashed #FFD88A; box-shadow:0 0 12px #FFD88A,0 0 25px rgba(255,216,138,0.4); animation:pulse 1.8s infinite; background:transparent; }
-@keyframes pulse{0%,100%{box-shadow:0 0 10px #FFD88A}50%{box-shadow:0 0 22px #FFD88A}}
-.story-ring img{ width:100%; height:100%; border-radius:50%; border:3px solid #0A1020; object-fit:cover; }
-.story-ring.plus{ background:#151D2F; display:flex; align-items:center; justify-content:center; font-size:26px; color:#FFD88A; }
-.stories-bar{ display:flex; gap:14px; overflow-x:auto; padding:12px 18px; scrollbar-width:none; }
-.story-circle{ min-width:70px; text-align:center; cursor:pointer; }
-.btn-publish-plus{ width:46px; height:46px; border-radius:50%; background:#FFD88A; border:none; font-size:22px; position:relative; }
-.btn-publish-plus::after{ content:''; position:absolute; top:-6px; left:-6px; right:-6px; bottom:-6px; border-radius:50%; border:2px dashed #FFD88A; box-shadow:0 0 12px #FFD88A; }
-.cover{ height:130px; background: linear-gradient(90deg,#1A2A4A,#2A3A5A); position:relative; overflow:hidden; }
-.cover img{ width:100%; height:100%; object-fit:cover; }
-.cover-btn{ position:absolute; bottom:10px; right:10px; background:rgba(0,0,0,0.6); color:white; border:none; padding:6px 10px; border-radius:15px; font-size:11px; cursor:pointer; }
-.avatar-centered{ width:90px; height:90px; border-radius:50%; border:3px solid #FFD88A; box-shadow:0 0 15px rgba(255,216,138,0.4); display:block; margin:-45px auto 8px; object-fit:cover; position:relative; z-index:2; }
-.avatar-wrap{ position:relative; width:90px; margin:-45px auto 8px; }
-.avatar-change{ position:absolute; bottom:0; right:0; background:#FFD88A; border:none; width:28px; height:28px; border-radius:50%; font-size:14px; cursor:pointer; z-index:3; }
-.btn-logout-visible{ position:absolute; top:10px; right:12px; background:#FF3B5C; color:white; border:none; padding:7px 14px; border-radius:20px; font-size:11px; font-weight:bold; cursor:pointer; z-index:20; box-shadow:0 0 10px rgba(255,59,92,0.4); }
-.story-viewer{ position:fixed; top:0; left:0; width:100%; height:100%; background:black; z-index:9999; display:none; flex-direction:column; }
-.story-viewer.active{ display:flex !important; }
-.online-bar{ display:flex; gap:12px; overflow-x:auto; padding:12px 18px; border-bottom:1px solid #1C2A4A; }
-.online-user{ min-width:60px; text-align:center; font-size:11px; cursor:pointer; }
-.btn-moon-message{ margin:0 auto 12px; padding:12px 20px; background:transparent; border:1.5px solid #FFD88A; border-radius:25px; color:#FFD88A; font-weight:bold; width:calc(100% - 40px); max-width:320px; display:block; cursor:pointer; }
-.btn-follow{ margin:0 auto 10px; padding:10px 20px; background:#FFD88A; border:none; border-radius:20px; font-weight:bold; width:calc(100% - 40px); max-width:320px; display:block; cursor:pointer; }
-.profile-counters{ display:flex; gap:20px; justify-content:center; margin:15px 20px; }
-.counter-box{ background:#151D2F; border:1px solid #2A3A5A; border-radius:12px; padding:12px 18px; text-align:center; min-width:90px; }
-.counter-box b{ display:block; font-size:18px; color:#FFD88A; }
-</style>
-</head>
-<body>
-<div class="stars"></div>
-<!-- 1. HOME -->
-<div id="page-home" class="page active">
-<div class="logo" style="text-align:center; padding:60px 20px 20px; font-size:32px; font-weight:900; color:#FFD88A; text-shadow:0 0 15px #FFD88A;">🌕 NIGHT</div>
-<div class="form" style="padding:20px; max-width:340px; margin:0 auto; display:flex; flex-direction:column; gap:12px;">
-<input id="loginEmail" type="email" placeholder="Email" style="padding:14px; border-radius:12px; background:#151D2F; border:1px solid #2A3A5A; color:white;">
-<input id="loginPass" type="password" placeholder="Mot de passe" style="padding:14px; border-radius:12px; background:#151D2F; border:1px solid #2A3A5A; color:white;">
-<button onclick="showPage('page-feed')" style="padding:14px; background:#FFD88A; border:none; border-radius:25px; font-weight:bold;">Se connecter</button>
-<button onclick="showPage('page-signup')" style="padding:12px; background:transparent; border:1px solid #2A3A5A; border-radius:25px; color:#7A8BB0;">Créer un compte</button>
-</div>
-</div>
-<!-- 2. SIGNUP -->
-<div id="page-signup" class="page">
-<div class="logo" style="text-align:center; padding:40px 20px; font-size:28px; font-weight:900; color:#FFD88A;">🌕 NIGHT</div>
-<div class="form" style="padding:20px; max-width:340px; margin:0 auto; display:flex; flex-direction:column; gap:12px;">
-<input id="pseudoInput" type="text" placeholder="Pseudo" style="padding:14px; border-radius:12px; background:#151D2F; border:1px solid #2A3A5A; color:white;">
-<input id="signupEmail" type="email" placeholder="Email" style="padding:14px; border-radius:12px; background:#151D2F; border:1px solid #2A3A5A; color:white;">
-<input id="signupPass" type="password" placeholder="Mot de passe" style="padding:14px; border-radius:12px; background:#151D2F; border:1px solid #2A3A5A; color:white;">
-<button onclick="signup()" style="padding:14px; background:#FFD88A; border:none; border-radius:25px; font-weight:bold;">Créer un compte</button>
-<span onclick="showPage('page-home')" style="text-align:center; color:#7A8BB0; cursor:pointer; margin-top:10px;">← Déjà un compte ?</span>
-</div>
-</div><div id="page-feed" class="page">
-<div class="feed-top-bar"><div class="feed-logo">NIGHT 🌕</div><div style="margin-left:auto;"><button onclick="document.getElementById('newPostBox').style.display='block'" class="btn-publish-plus">+</button></div></div>
-<div class="stories-bar" id="storiesBar">
-<div class="story-circle" onclick="addStory()"><div class="story-ring plus dotted">+</div><small>Ta story</small></div>
-</div>
-<div id="newPostBox" style="display:none; background:#151D2F; margin:10px 18px; padding:14px; border-radius:14px; border:1px solid #2A3A5A;">
-<textarea id="postText" placeholder="Que fais-tu cette nuit ?" style="width:100%; background:#0A1020; border:1px solid #2A3A5A; border-radius:10px; padding:10px; color:white; min-height:60px;"></textarea>
-<input type="file" id="postImage" accept="image/*" style="margin-top:10px; width:100%; color:#7A8BB0;">
-<button id="vocalBtn" onclick="toggleVocal()" style="width:100%; margin-top:10px; padding:10px; background:#1C2A4A; border:1px solid #FFD88A; border-radius:20px; color:#FFD88A;">🎙️ Appuie pour parler</button>
-<p id="vocalStatus" style="display:none; text-align:center; color:#FFD88A; margin-top:6px;">🔴 0s</p>
-<audio id="vocalPreview" controls style="display:none; width:100%; margin-top:8px;"></audio>
-<div style="display:flex; gap:10px; margin-top:10px;"><button onclick="publishPost()" style="flex:1; padding:10px; background:#FFD88A; border:none; border-radius:10px; font-weight:bold;">Publier</button><button onclick="cancelPost()" style="flex:1; padding:10px; background:#1C2A4A; border:none; border-radius:10px; color:white;">Annuler</button></div>
-</div>
-<div class="posts-vertical" id="feedPosts" style="padding:10px 18px; display:flex; flex-direction:column; gap:12px;"></div>
-</div>
-<div id="storyViewer" class="story-viewer" onclick="closeStory()">
-<div style="padding:15px; display:flex; justify-content:space-between; color:white; background:linear-gradient(to bottom, rgba(0,0,0,0.6), transparent);"><span id="storyUser"></span><div><span id="storyViews">0 Vu</span> <span style="margin-left:15px;">✕</span></div></div>
-<div style="flex:1; display:flex; align-items:center; justify-content:center;"><img id="storyImage" src="" style="max-width:100%; max-height:75vh; border-radius:12px;"></div>
-</div>
-<div id="page-search" class="page">
-<div style="padding:20px;"><h2>Recherche</h2><input id="searchInput" type="text" placeholder="🔍 Pseudo..." oninput="doSearch()" style="width:100%; margin-top:12px; padding:14px; background:#151D2F; border:1px solid #2A3A5A; border-radius:14px; color:white;"></div>
-<div id="searchResults" style="padding:0 18px; display:flex; flex-direction:column; gap:10px;"></div>
-</div> <div id="page-other" class="page" style="position:relative; text-align:center;">
-<div style="padding:18px; text-align:left;"><span onclick="goBack()" style="cursor:pointer; color:white;">← Retour</span></div>
-<div class="cover"><img id="otherCoverImg" src=""></div>
-<img id="otherAvatar" class="avatar-centered" src="">
-<h3 id="otherName"></h3><p id="otherBio" style="color:#7A8BB0; font-size:13px;"></p>
-<div class="profile-counters"><div class="counter-box"><b id="otherFollowers">0</b><small>ABONNÉS</small></div><div class="counter-box"><b id="otherLikes">0</b><small>LIKES</small></div></div>
-<button id="followBtn" class="btn-follow" onclick="toggleFollow()">S'abonner</button>
-<button class="btn-moon-message" onclick="sendMessage()">✉️ Envoyer un message</button>
-<div id="otherPosts" style="padding:10px 18px; text-align:left; display:flex; flex-direction:column; gap:10px;"></div>
-</div>
-
-<div id="page-profile" class="page" style="position:relative;">
-<button class="btn-logout-visible" onclick="logout()">⏻ Déconnexion</button>
-<div class="cover" style="margin-top:38px;"><img id="myCoverImg" src="" style="display:none;"><button class="cover-btn" onclick="document.getElementById('coverInput').click()">📷 Cover</button></div>
-<input type="file" id="coverInput" accept="image/*" style="display:none;" onchange="changeCover(event)">
-<input type="file" id="avatarInput" accept="image/*" style="display:none;" onchange="changeAvatar(event)">
-<div class="avatar-wrap"><img id="myAvatarImg" class="avatar-centered" src="https://i.pravatar.cc/100" style="margin: -45px 0 0 0;"><button class="avatar-change" onclick="document.getElementById('avatarInput').click()">📷</button></div>
-<div style="text-align:center;"><h3 id="profileName">@moi</h3></div>
-<div class="profile-counters"><div class="counter-box"><b id="myFollowers">0</b><small>ABONNÉS</small></div><div class="counter-box"><b id="myLikes">0</b><small>LIKES CUMULÉS</small></div></div>
-<div id="myStoryBadge" style="display:none; text-align:center; margin:10px;"><span style="padding:6px 12px; background:#151D2F; border:1.5px dashed #FFD88A; border-radius:20px; color:#FFD88A; font-size:12px;">🌕 Ta story active - <span id="myStoryViews">0 Vu</span></span></div>
-<div id="profilePosts" style="padding:10px 18px; display:flex; flex-direction:column; gap:12px;"></div>
-</div>
-
-<div id="page-notifs" class="page"><h2 style="padding:20px;">Notifications</h2><div id="notifsList" style="padding:0 18px; display:flex; flex-direction:column; gap:10px;"></div></div><div id="page-messages" class="page">
-<h2 id="msgTitle" style="padding:18px;">Messages</h2>
-<div class="online-bar" id="onlineBar"></div>
+tu il="onlineBar"></div>
 <div id="messagesList" style="padding:10px 18px; display:flex; flex-direction:column; gap:10px; overflow-y:auto;"></div>
 <div id="chatBox" style="display:none; flex-direction:column; height:100vh; width:100%; position:absolute; top:0; left:0; background:#0A1020; z-index:20;">
 <div style="display:flex; align-items:center; gap:10px; padding:14px 18px; border-bottom:1px solid #1C2A4A; background:#0F1A32;"><span onclick="closeChat()" style="cursor:pointer; font-size:20px;">←</span><img id="chatAvatar" src="" style="width:32px; height:32px; border-radius:50%;"><b id="chatName"></b></div>
@@ -119,14 +10,7 @@
 </div>
 </div>
 
-<input type="file" id="storyInput" accept="image/*" style="display:none;" onchange="handleStoryFile(event)">
-<div class="bottom-nav" id="bottomNav" style="position:fixed; bottom:0; left:0; width:100%; background:#0F1A32; border-top:1px solid #1C2A4A; display:flex; justify-content:space-around; padding:8px 0 4px;">
-<button id="nav-feed" onclick="showPage('page-feed')" class="nav-btn active-nav" style="background:none; border:none; color:#7A8BB0; display:flex; flex-direction:column; align-items:center; gap:2px;"><span>◍</span><small>Feed</small></button>
-<button id="nav-search" onclick="showPage('page-search')" class="nav-btn" style="background:none; border:none; color:#7A8BB0; display:flex; flex-direction:column; align-items:center; gap:2px;"><span>⌕</span><small>Search</small></button>
-<button id="nav-notifs" onclick="showPage('page-notifs')" class="nav-btn" style="background:none; border:none; color:#7A8BB0; display:flex; flex-direction:column; align-items:center; gap:2px;"><span>🔔</span><small>Notifs</small></button>
-<button id="nav-profile" onclick="showPage('page-profile')" class="nav-btn" style="background:none; border:none; color:#7A8BB0; display:flex; flex-direction:column; align-items:center; gap:2px;"><span>○</span><small>Profil</small></button>
-<button id="nav-msgs" onclick="showPage('page-messages')" class="nav-btn" style="background:none; border:none; color:#7A8BB0; display:flex; flex-direction:column; align-items:center; gap:2px;"><span>✉</span><small>Msgs</small></button>
-</div><script type="module">  javascript
+  javascript
 import { initializeApp } from "https://www.gstatic.com/firebasejs/13.2.0/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/13.2.0/firebase-analytics.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/13.2.0/firebase-firestore.js";
@@ -182,67 +66,7 @@ function signup(){
  localStorage.setItem('night_pseudo',f);
  showPage('page-feed');
 }
-function logout(){ if(confirm('Se déconnecter ?')){ localStorage.removeItem('night_pseudo'); showPage('page-home'); } }
-function changeCover(e){ const file=e.target.files[0]; if(!file) return; const r=new FileReader(); r.onload=ev=>{ document.getElementById('myCoverImg').src=ev.target.result; document.getElementById('myCoverImg').style.display='block'; localStorage.setItem('night_cover', ev.target.result); }; r.readAsDataURL(file); }
-function changeAvatar(e){ const file=e.target.files[0]; if(!file) return; const r=new FileReader(); r.onload=ev=>{ document.getElementById('myAvatarImg').src=ev.target.result; localStorage.setItem('night_avatar', ev.target.result); }; r.readAsDataURL(file); }
-const savedCover=localStorage.getItem('night_cover'); if(savedCover){ const img=document.getElementById('myCoverImg'); if(img){ img.src=savedCover; img.style.display='block'; } }
-const savedAvatar=localStorage.getItem('night_avatar'); if(savedAvatar){ const img=document.getElementById('myAvatarImg'); if(img) img.src=savedAvatar; }
-  async function toggleVocal(){
- const btn=document.getElementById('vocalBtn'); const status=document.getElementById('vocalStatus'); const preview=document.getElementById('vocalPreview');
- if(mediaRecorder && mediaRecorder.state==='recording'){ mediaRecorder.stop(); btn.textContent='🎙️ Appuie pour parler'; status.style.display='none'; clearInterval(vocalTimer); return; }
- try{ const stream=await navigator.mediaDevices.getUserMedia({audio:true}); mediaRecorder=new MediaRecorder(stream); audioChunks=[]; mediaRecorder.ondataavailable=e=>audioChunks.push(e.data); mediaRecorder.onstop=()=>{ audioBlob=new Blob(audioChunks,{type:'audio/webm'}); const url=URL.createObjectURL(audioBlob); preview.src=url; preview.style.display='block'; stream.getTracks().forEach(t=>t.stop()); }; mediaRecorder.start(); btn.textContent='⏹️ Arrêter'; status.style.display='block'; vocalSeconds=0; vocalTimer=setInterval(()=>{ vocalSeconds++; status.textContent=`🔴 ${vocalSeconds}s`; },1000); }catch(e){ alert('Active micro'); }
-}
-function cancelPost(){ document.getElementById('newPostBox').style.display='none'; document.getElementById('postText').value=''; document.getElementById('postImage').value=''; audioBlob=null; document.getElementById('vocalPreview').style.display='none'; document.getElementById('vocalStatus').style.display='none'; }
-function savePosts(){ localStorage.setItem('night_posts', JSON.stringify(allPosts)); }
-function saveNotifs(){ localStorage.setItem('night_notifs', JSON.stringify(notifs)); }
-function addNotif(text){ notifs.unshift({text:text, time:Date.now()}); saveNotifs(); if(notifs.length>30) notifs=notifs.slice(0,30); }
-function renderNotifs(){ const list=document.getElementById('notifsList'); list.innerHTML=''; if(notifs.length===0){ list.innerHTML='<p style="color:#7A8BB0;">Pas de notifs</p>'; return; } notifs.forEach(n=>{ const d=document.createElement('div'); d.style.cssText='padding:12px; background:#151D2F; border-radius:12px; border-left:3px solid #FFD88A; font-size:13px;'; d.innerHTML=`${n.text}<br><small style="color:#7A8BB0;">${new Date(n.time).toLocaleTimeString()}</small>`; list.appendChild(d); }); }
-function renderAllPosts(){
- const feed=document.getElementById('feedPosts'); const prof=document.getElementById('profilePosts'); const other=document.getElementById('otherPosts');
- feed.innerHTML=''; prof.innerHTML=''; if(other) other.innerHTML='';
- if(allPosts.length===0){ allPosts=[{id:'p1', user:'@luna.park', text:'Late night walk ✨', img:'', audio:'', likes:0, comments:[]}]; savePosts(); }
- const myPseudo=localStorage.getItem('night_pseudo')||'@moi';
- allPosts.forEach(post=>{
-   const isMine = post.user===myPseudo;
-   const html = createPostHTML(post, isMine);
-   const d1=document.createElement('div'); d1.className='post'; d1.style.cssText='background:#151D2F; border:1px solid #2A3A5A; border-radius:14px; padding:12px;'; d1.innerHTML=html; feed.appendChild(d1);
-   if(isMine){ const d2=document.createElement('div'); d2.className='post'; d2.style.cssText='background:#151D2F; border:1px solid #2A3A5A; border-radius:14px; padding:12px;'; d2.innerHTML=html; prof.appendChild(d2); }
-   if(currentView && post.user===users[currentView]?.name){ const d3=document.createElement('div'); d3.style.cssText='background:#151D2F; border:1px solid #2A3A5A; border-radius:14px; padding:12px;'; d3.innerHTML=html; if(other) other.appendChild(d3); }
- });
-}
-function createPostHTML(post, isMine){
- let del = isMine ? `<span style="float:right; color:#FF3B5C; cursor:pointer; font-size:12px;" onclick="deletePost('${post.id}')">🗑 Supprimer</span>` : '';
- let commentsHTML = post.comments.map(c=>`<div style="margin-top:8px; padding:8px; background:#0A1020; border-radius:8px; font-size:13px; border-left:2px solid #FFD88A;"><b style="color:#FFD88A;">${c.user}</b> ${c.text}</div>`).join('');
- return `${del}<div><b style="color:#FFD88A;">${post.user}</b><br><div style="margin:8px 0;">${post.text||''}</div>${post.img?`<img src="${post.img}" style="width:100%; border-radius:10px; margin:8px 0;"><br>`:''}${post.audio?`<audio controls src="${post.audio}" style="width:100%; margin:8px 0;"></audio><br>`:''}<div style="display:flex; gap:15px; margin-top:8px;"><span onclick="likePost('${post.id}')" style="cursor:pointer;">❤️ ${post.likes}</span><span style="cursor:pointer;" onclick="commentPost('${post.id}')">💬 ${post.comments.length}</span></div><div>${commentsHTML}</div></div>`;
-}
-function deletePost(id){ if(!confirm('Supprimer ce post ?')) return; allPosts=allPosts.filter(p=>p.id!==id); savePosts(); renderAllPosts(); }
-function likePost(id){ const post=allPosts.find(p=>p.id===id); if(!post) return; post.likes++; totalLikes++; localStorage.setItem('night_likes', totalLikes); savePosts(); addNotif(`${post.user} a liké ton post`); if(post.user!== (localStorage.getItem('night_pseudo')||'@moi')) addNotif(`Tu as liké le post de ${post.user}`); renderAllPosts(); }
-function commentPost(id){ const text=prompt('Ton commentaire :'); if(!text) return; const post=allPosts.find(p=>p.id===id); if(!post) return; const myPseudo=localStorage.getItem('night_pseudo')||'@toi'; post.comments.push({user:myPseudo, text:text}); savePosts(); addNotif(`${myPseudo} a commenté le post de ${post.user}`); renderAllPosts(); }
-function publishPost(){
- const text=document.getElementById('postText').value.trim(); const file=document.getElementById('postImage').files[0];
- if(!text && !file && !audioBlob){ alert('Ajoute texte, image ou vocal'); return; }
- const myPseudo=localStorage.getItem('night_pseudo')||'@moi';
- const finalize=(imgSrc, audioUrl)=>{
-  const newPost={ id:'post_'+Date.now(), user:myPseudo, text:text, img:imgSrc||'', audio:audioUrl||'', likes:0, comments:[] };
-  allPosts.unshift(newPost); savePosts(); renderAllPosts(); cancelPost();
- };
- const audioUrl = audioBlob ? URL.createObjectURL(audioBlob) : '';
- if(file){ const reader=new FileReader(); reader.onload=e=>finalize(e.target.result, audioUrl); reader.readAsDataURL(file); } else { finalize('', audioUrl); }
-} function renderStories(){
- const bar=document.getElementById('storiesBar'); const now=Date.now();
- stories=stories.filter(s=>now-s.time<7*60*60*1000); localStorage.setItem('night_stories',JSON.stringify(stories));
- bar.innerHTML=`<div class="story-circle" onclick="addStory()"><div class="story-ring plus dotted">+</div><small>Ta story</small></div>`;
- stories.forEach((s,i)=>{
-  const hLeft=Math.ceil((7*60*60*1000-(now-s.time))/(60*60*60*1000))||1;
-  const div=document.createElement('div'); div.className='story-circle'; div.onclick=()=>openStory(i);
-  div.innerHTML=`<div class="story-ring dotted"><img src="${s.img}"></div><small>${s.user}<br>${hLeft}h • ${s.views||0} Vu</small>`; bar.appendChild(div);
- });
-}
-function renderMyStoryBadge(){
- const myPseudo=localStorage.getItem('night_pseudo')||'@moi'; const myStories=stories.filter(s=>s.user===myPseudo);
- const badge=document.getElementById('myStoryBadge'); if(myStories.length>0){ badge.style.display='block'; const totalViews=myStories.reduce((a,b)=>a+(b.views||0),0); document.getElementById('myStoryViews').textContent=totalViews+' Vu'; } else { badge.style.display='none'; }
-}
-function addStory(){ document.getElementById('storyInput').click(); }
+.getElementById('storyInput').click(); }
 function handleStoryFile(e){ const file=e.target.files[0]; if(!file) return; const reader=new FileReader(); reader.onload=ev=>{ const myPseudo=localStorage.getItem('night_pseudo')||'@toi'; stories.unshift({img:ev.target.result,user:myPseudo,time:Date.now(), views:0}); localStorage.setItem('night_stories',JSON.stringify(stories)); renderStories(); renderMyStoryBadge(); }; reader.readAsDataURL(file); }
 function openStory(i){
  const s=stories[i]; if(!s) return;
@@ -282,20 +106,3 @@ async function sendMessage(){
   });
   input.value = "";
   }
-function openChat(userKey){ const u = users[userKey]; if(!u) return; currentChat = userKey; document.getElementById('msgTitle').style.display='none'; document.getElementById('onlineBar').style.display='none'; document.getElementById('messagesList').style.display='none'; document.getElementById('chatBox').style.display='flex'; document.getElementById('chatName').textContent = u.name; document.getElementById('chatAvatar').src = u.avatar; const chatMessages = document.getElementById('chatMessages'); chatMessages.innerHTML=''; const conv = conversations[userKey] || []; conv.forEach(m=>{ const div=document.createElement('div'); div.style.cssText = m.me ? 'align-self:flex-end; background:#FFD88A; color:#0A1020; padding:10px 14px; border-radius:18px 18px 4px 18px; max-width:70%; font-size:14px;' : 'align-self:flex-start; background:#1C2A4A; color:white; padding:10px 14px; border-radius:18px 18px 18px 4px; max-width:70%; font-size:14px;'; div.textContent = m.text; chatMessages.appendChild(div); }); chatMessages.scrollTop=chatMessages.scrollHeight; }
-function closeChat(){ document.getElementById('chatBox').style.display='none'; document.getElementById('messagesList').style.display='flex'; document.getElementById('onlineBar').style.display='flex'; document.getElementById('msgTitle').style.display='block'; currentChat=null; renderMessagesList(); }
-function sendChatMessage(){ const input=document.getElementById('chatInput'); const text=input.value.trim(); if(!text || !currentChat) return; if(!conversations[currentChat]) conversations[currentChat]=[]; conversations[currentChat].push({text:text, me:true}); localStorage.setItem('night_convs', JSON.stringify(conversations)); input.value=''; openChat(currentChat); setTimeout(()=>{ conversations[currentChat].push({text:'🌙 Reçu ! On se capte cette nuit ?', me:false}); localStorage.setItem('night_convs', JSON.stringify(conversations)); if(currentChat) openChat(currentChat); }, 800); } function viewUser(k){ const u=users[k]; if(!u) return; currentView=k; document.getElementById('otherName').textContent=u.name; document.getElementById('otherBio').textContent=u.bio; document.getElementById('otherAvatar').src=u.avatar; document.getElementById('otherCoverImg').src=''; document.getElementById('otherFollowers').textContent=Math.floor(Math.random()*500)+10; document.getElementById('otherLikes').textContent=Math.floor(Math.random()*100)+5; document.getElementById('followBtn').textContent=following.includes(k)?'Abonné ✓':"S'abonner"; showPage('page-other'); setTimeout(renderAllPosts,50); }
-function toggleFollow(){
- if(!currentView) return;
- if(following.includes(currentView)){ following=following.filter(x=>x!==currentView); addNotif(`Tu t'es désabonné de ${users[currentView].name}`); }
- else{ following.push(currentView); addNotif(`${users[currentView].name} a été abonné par toi`); addNotif(`${users[currentView].name} s'est abonné à toi`); }
- localStorage.setItem('night_following',JSON.stringify(following)); document.getElementById('followBtn').textContent=following.includes(currentView)?'Abonné ✓':"S'abonner"; document.getElementById('myFollowers').textContent=following.length;
-}
-function doSearch(){ const q=document.getElementById('searchInput').value.toLowerCase(); const resDiv=document.getElementById('searchResults'); resDiv.innerHTML=''; if(!q) return; Object.keys(users).forEach(k=>{ const u=users[k]; if(u.name.toLowerCase().includes(q)){ const d=document.createElement('div'); d.style.cssText='display:flex; gap:10px; align-items:center; padding:12px; background:#151D2F; border-radius:12px; cursor:pointer;'; d.innerHTML=`<img src="${u.avatar}" style="width:40px; border-radius:50%;"> <div><b>${u.name}</b><br><small>${u.bio}</small></div>`; d.onclick=()=>viewUser(k); resDiv.appendChild(d);} }); }
-
-const savedPseudo=localStorage.getItem('night_pseudo'); if(savedPseudo) document.getElementById('profileName').textContent=savedPseudo;
-renderAllPosts(); renderStories(); renderNotifs(); renderMessagesList(); showPage('page-feed');
-</script>
-</body>
-</html>
-
