@@ -270,7 +270,18 @@ function renderMessagesList(){
  });
  if(Object.keys(conversations).length===0){ list.innerHTML='<p style="color:#7A8BB0; text-align:center;">Aucune conversation</p>'; }
 }
-function sendMessage(){ if(!currentView) currentView='luna'; showPage('page-messages'); setTimeout(()=> openChat(currentView), 150); }
+js
+async function sendMessage(){
+  const input = document.getElementById('postInput');
+  if(!input || !currentView && !input.value) return;
+  if(!input.value) return;
+  await addDoc(collection(db, "posts"), {
+    content: input.value,
+    author: localStorage.getItem('night_pseudo') || 'luna',
+    createdAt: serverTimestamp()
+  });
+  input.value = "";
+  }
 function openChat(userKey){ const u = users[userKey]; if(!u) return; currentChat = userKey; document.getElementById('msgTitle').style.display='none'; document.getElementById('onlineBar').style.display='none'; document.getElementById('messagesList').style.display='none'; document.getElementById('chatBox').style.display='flex'; document.getElementById('chatName').textContent = u.name; document.getElementById('chatAvatar').src = u.avatar; const chatMessages = document.getElementById('chatMessages'); chatMessages.innerHTML=''; const conv = conversations[userKey] || []; conv.forEach(m=>{ const div=document.createElement('div'); div.style.cssText = m.me ? 'align-self:flex-end; background:#FFD88A; color:#0A1020; padding:10px 14px; border-radius:18px 18px 4px 18px; max-width:70%; font-size:14px;' : 'align-self:flex-start; background:#1C2A4A; color:white; padding:10px 14px; border-radius:18px 18px 18px 4px; max-width:70%; font-size:14px;'; div.textContent = m.text; chatMessages.appendChild(div); }); chatMessages.scrollTop=chatMessages.scrollHeight; }
 function closeChat(){ document.getElementById('chatBox').style.display='none'; document.getElementById('messagesList').style.display='flex'; document.getElementById('onlineBar').style.display='flex'; document.getElementById('msgTitle').style.display='block'; currentChat=null; renderMessagesList(); }
 function sendChatMessage(){ const input=document.getElementById('chatInput'); const text=input.value.trim(); if(!text || !currentChat) return; if(!conversations[currentChat]) conversations[currentChat]=[]; conversations[currentChat].push({text:text, me:true}); localStorage.setItem('night_convs', JSON.stringify(conversations)); input.value=''; openChat(currentChat); setTimeout(()=>{ conversations[currentChat].push({text:'🌙 Reçu ! On se capte cette nuit ?', me:false}); localStorage.setItem('night_convs', JSON.stringify(conversations)); if(currentChat) openChat(currentChat); }, 800); } function viewUser(k){ const u=users[k]; if(!u) return; currentView=k; document.getElementById('otherName').textContent=u.name; document.getElementById('otherBio').textContent=u.bio; document.getElementById('otherAvatar').src=u.avatar; document.getElementById('otherCoverImg').src=''; document.getElementById('otherFollowers').textContent=Math.floor(Math.random()*500)+10; document.getElementById('otherLikes').textContent=Math.floor(Math.random()*100)+5; document.getElementById('followBtn').textContent=following.includes(k)?'Abonné ✓':"S'abonner"; showPage('page-other'); setTimeout(renderAllPosts,50); }
