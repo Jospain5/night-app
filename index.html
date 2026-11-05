@@ -126,7 +126,25 @@
 <button id="nav-notifs" onclick="showPage('page-notifs')" class="nav-btn" style="background:none; border:none; color:#7A8BB0; display:flex; flex-direction:column; align-items:center; gap:2px;"><span>🔔</span><small>Notifs</small></button>
 <button id="nav-profile" onclick="showPage('page-profile')" class="nav-btn" style="background:none; border:none; color:#7A8BB0; display:flex; flex-direction:column; align-items:center; gap:2px;"><span>○</span><small>Profil</small></button>
 <button id="nav-msgs" onclick="showPage('page-messages')" class="nav-btn" style="background:none; border:none; color:#7A8BB0; display:flex; flex-direction:column; align-items:center; gap:2px;"><span>✉</span><small>Msgs</small></button>
-</div><script>
+</div><script type="module">  javascript
+import { initializeApp } from "https://www.gstatic.com/firebasejs/13.2.0/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/13.2.0/firebase-analytics.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/13.2.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDfD17y_VtOKVQwVCTe__XcT6izktV_rGg",
+  authDomain: "night-app-8e88c.firebaseapp.com",
+  projectId: "night-app-8e88c",
+  storageBucket: "night-app-8e88c.firebasestorage.app",
+  messagingSenderId: "292682644101",
+  appId: "1:292682644101:web:86e875a95f32d1b4b9c7ec",
+  measurementId: "G-GN6C1R76CY"
+};
+
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+const db = getFirestore(app);
+ 
 const users = {
  luna:{name:'@luna.park', bio:'Dreamer • Night owl', avatar:'https://i.pravatar.cc/100?img=1', online:true},
  james:{name:'@james.night', bio:'Photographer', avatar:'https://i.pravatar.cc/100?img=2', online:false},
